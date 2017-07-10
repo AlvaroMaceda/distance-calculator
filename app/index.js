@@ -1,14 +1,13 @@
-console.log('Hello, World');
+#!/usr/bin/env node
 
-var argsParser = {
-  parse: function(args) {
-        console.log(args)
-    }
-};
-
+argsparser = require('./argsparser');
 
 try {
-    argsParser.parse(process.argv);
-}catch(e){
+    argsparser.parse(process.argv);
 
+    console.log('origin: %s destination: %s',
+        argsparser.arguments.origin, argsparser.arguments.destination);
+
+}catch(e){
+    console.log(e);
 }
