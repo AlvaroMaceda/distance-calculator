@@ -1,0 +1,23 @@
+{
+  "name": "distance-calculator",
+  "version": "0.1.0",
+  "description": "Google Distance Matrix command line tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlvaroMaceda/distance-calculator.git"
+  },
+  "author": "Alvaro Maceda (http://alvaromaceda.es)",
+  "license": "Public Domain",
+  "bugs": {
+    "url": "https://github.com/AlvaroMaceda/distance-calculator/issues"
+  },
+  "homepage": "https://github.com/AlvaroMaceda/distance-calculator#readme",
+  "devDependencies": {
+    "chai": "^4.0.2",
+    "mocha": "^3.4.2"
+  }
+}
