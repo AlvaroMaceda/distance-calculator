@@ -3,12 +3,9 @@
 const request = require('request');
 
 function encodeData(data) {
-    let map = data.map( (parameter) => {
-        return Object.keys(parameter).map( (key) => {
-            return [key, parameter[key]].map(encodeURIComponent).join("=");
-        });
-    });
-    return map.join("&");
+    return Object.keys(data).map(function(key) {
+        return [key, data[key]].map(encodeURIComponent).join("=");
+    }).join("&");
 }
 
 class DistanceMatrix {
@@ -22,13 +19,13 @@ class DistanceMatrix {
     }
 
     calculate(origin, destination, callback) {
-        let data =  [
-            { units: 'metric' },
-            { key: this.key },
-            { origins: origin },
-            { destinations: destination }
-        ];
-        let url = this.API_URL + '/'+ encodeData(data);
+        let data = {
+            units: 'metric',
+            key: this.key,
+            origins: origin,
+            destinations: destination
+        };
+        let url = this.API_HOST + this.API_URL + '?'+ encodeData(data);
 
         request.get({
             url: url,
@@ -47,7 +44,8 @@ class DistanceMatrix {
 
     }
 }
-DistanceMatrix.prototype.API_URL = 'https://maps.googleapis.com/maps/api/distancematrix/json';
+DistanceMatrix.prototype.API_HOST = 'https://maps.googleapis.com';
+DistanceMatrix.prototype.API_URL = '/maps/api/distancematrix/json';
 
 module.exports = function(key) {
     return new DistanceMatrix(key);

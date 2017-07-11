@@ -10,15 +10,6 @@ const request = require('request');
 const FAKE_KEY = 'FAKEGoog1eAP1Key';
 
 
-function encodeData(data) {
-    let map = data.map( (parameter) => {
-        return Object.keys(parameter).map( (key) => {
-            return [key, parameter[key]].map(encodeURIComponent).join("=");
-        });
-    });
-    return map.join("&");
-}
-
 describe('Distance Matrix', () => {
 
     before(function(){
@@ -30,15 +21,18 @@ describe('Distance Matrix', () => {
         let origin = 'Lepe';
         let destination = 'Calahorra';
 
-        let data = [
-            { units: 'metric' },
-            { key: this.distanceMatrix.key },
-            { origins: origin },
-            { destinations: destination }
-        ];
+        let queryData = {
+            units: 'metric',
+            key: this.distanceMatrix.key,
+            origins: origin,
+            destinations: destination
+        };
 
         let distance = 993974;
-        let time = 32432;
+        let distanceText = "994 km";
+        let duration = 32432;
+        let durationText = "9h 1 min";
+
         let response = {
             "destination_addresses": [
                 "26500 Calahorra, La Rioja, España"
@@ -51,12 +45,12 @@ describe('Distance Matrix', () => {
                     "elements": [
                         {
                             "distance": {
-                                "text": "994 km",
+                                "text": distanceText,
                                 "value": distance
                             },
                             "duration": {
-                                "text": "9h 1 min",
-                                "value": time
+                                "text": durationText,
+                                "value": duration
                             },
                             "status": "OK"
                         }
@@ -66,14 +60,18 @@ describe('Distance Matrix', () => {
             "status": "OK"
         };
 
-        let url = '/' + encodeData(data);
-        nock( this.distanceMatrix.API_URL)
-            .get(url)
+        let url = '/';
+        nock( this.distanceMatrix.API_HOST)
+            .get(this.distanceMatrix.API_URL)
+            .query(queryData)
             .reply(200, response);
+
 
         this.distanceMatrix.calculate(origin, destination, function(distanceData){
             expect(distanceData.distance).to.equal(distance);
-            expect(distanceData.duration).to.equal(time);
+            expect(distanceData.distanceText).to.equal(distanceText);
+            expect(distanceData.duration).to.equal(duration);
+            expect(distanceData.durationText).to.equal(durationText);
             done();
         })
 
