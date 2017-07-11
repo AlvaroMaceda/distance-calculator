@@ -3,9 +3,12 @@
 const request = require('request');
 
 function encodeData(data) {
-    return Object.keys(data).map(function(key) {
-        return [key, data[key]].map(encodeURIComponent).join("=");
-    }).join("&");
+    let map = data.map( (parameter) => {
+        return Object.keys(parameter).map( (key) => {
+            return [key, parameter[key]].map(encodeURIComponent).join("=");
+        });
+    });
+    return map.join("&");
 }
 
 class DistanceMatrix {
@@ -19,22 +22,27 @@ class DistanceMatrix {
     }
 
     calculate(origin, destination, callback) {
-        let data =  {
-            units: 'metric',
-            key: this.key,
-            origins: origin,
-            destinations: destination
-        };
-        let url = this.API_URL + encodeData(data);
+        let data =  [
+            { units: 'metric' },
+            { key: this.key },
+            { origins: origin },
+            { destinations: destination }
+        ];
+        let url = this.API_URL + '/'+ encodeData(data);
 
         request.get({
             url: url,
             json: true
         }, function(err, res, body) {
-            let distance;
-            let time;
+            if (err) throw err;
+            let distanceData = {
+                distance: body.rows[0].elements[0].distance.value,
+                distanceText: body.rows[0].elements[0].distance.text,
+                duration: body.rows[0].elements[0].duration.value,
+                durationText: body.rows[0].elements[0].duration.text
+            };
             console.log('do something');
-            callback(distance, time);
+            callback(distanceData);
         });
 
     }

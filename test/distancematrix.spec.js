@@ -9,10 +9,14 @@ const request = require('request');
 
 const FAKE_KEY = 'FAKEGoog1eAP1Key';
 
+
 function encodeData(data) {
-    return Object.keys(data).map(function(key) {
-        return [key, data[key]].map(encodeURIComponent).join("=");
-    }).join("&");
+    let map = data.map( (parameter) => {
+        return Object.keys(parameter).map( (key) => {
+            return [key, parameter[key]].map(encodeURIComponent).join("=");
+        });
+    });
+    return map.join("&");
 }
 
 describe('Distance Matrix', () => {
@@ -26,12 +30,12 @@ describe('Distance Matrix', () => {
         let origin = 'Lepe';
         let destination = 'Calahorra';
 
-        let data = {
-            units: 'metric',
-            key: this.key,
-            origins: origin,
-            destinations: destination
-        };
+        let data = [
+            { units: 'metric' },
+            { key: this.distanceMatrix.key },
+            { origins: origin },
+            { destinations: destination }
+        ];
 
         let distance = 993974;
         let time = 32432;
@@ -62,14 +66,14 @@ describe('Distance Matrix', () => {
             "status": "OK"
         };
 
-        let url = encodeData(data);
+        let url = '/' + encodeData(data);
         nock( this.distanceMatrix.API_URL)
             .get(url)
             .reply(200, response);
 
-        this.distanceMatrix.calculate(origin, destination, function(returnedDistance, returnedTime){
-            expect(returnedDistance).to.equal(distance);
-            expect(returnedTime).to.equal(time);
+        this.distanceMatrix.calculate(origin, destination, function(distanceData){
+            expect(distanceData.distance).to.equal(distance);
+            expect(distanceData.duration).to.equal(time);
             done();
         })
 
