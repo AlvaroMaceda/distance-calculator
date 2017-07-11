@@ -1,14 +1,10 @@
 'use strict';
 
-
 const expect = require('chai').expect;
 const nock   = require('nock');
 const request = require('request');
-// const util = require('util');
-
 
 const FAKE_KEY = 'FAKEGoog1eAP1Key';
-
 
 describe('Distance Matrix', () => {
 
@@ -77,41 +73,5 @@ describe('Distance Matrix', () => {
 
     });
 
-    it('testing nock2', function(done) {
-
-        nock('https://maps.googleapis.com/maps/api/distancematrix/json')
-            .get('?units=metric&origins=&destinations=&key=')
-            .reply(200, {hola:"caracola"});
-
-        let url = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=&destinations=&key=';
-        request.get({
-            url: url,
-            json: true
-        }, function(err, res, body) {
-            expect(res.statusCode).to.equal(200);
-            expect(body).to.deep.equal({hola:"caracola"});
-            done();
-        });
-    });
-
-    it('testing nock', function(done) {
-
-        let request = require('request');
-
-        nock('http://google.es')
-            .get('/foo')
-            .reply(200, 'some message');
-
-        request.get({
-            url: 'http://google.es/foo',
-            headers: {
-            }
-        }, function(err, res, body) {
-            expect(res.statusCode).to.equal(200);
-            expect(body).to.equal('some message');
-            done();
-        });
-
-    });
 
 });

@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "commander": "^2.11.0",
+    "csvtojson": "^1.1.7",
     "request": "^2.81.0"
   }
 }
