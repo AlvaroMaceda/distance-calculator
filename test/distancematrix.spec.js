@@ -62,7 +62,6 @@ describe('Distance Matrix', () => {
             .query(queryData)
             .reply(200, response);
 
-
         this.distanceMatrix.calculate(origin, destination, function(distanceData){
             expect(distanceData.distance).to.equal(distance);
             expect(distanceData.distanceText).to.equal(distanceText);

@@ -2,8 +2,13 @@
 
 class CSVProcessor {
 
+    constructor() {
+    }
+
+    processFile(file, callback) {
+        throw new Error('File does not exists');
+    }
+
 }
 
-module.exports = function() {
-    return new CSVProcessor();
-};
+module.exports = new CSVProcessor();
