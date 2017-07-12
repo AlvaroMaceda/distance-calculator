@@ -13,18 +13,21 @@ class CSVProcessor {
         this.csv =  require('csvtojson');
     }
 
-    processFile(file, callback, done) {
+    processFile(file, callback, done, error) {
 
         this.csv(CSV_OPTIONS)
             .fromFile(file)
             .on('json', (line) => {
-                callback(line.destination); //, line.origin);
+                callback(line.destination, line.origin);
             })
-            .on('done',(error)=>{
-                if(error) throw new Error(error);
+            .on('done',()=>{
                 done();
             })
-
+            .on('error', (err) => {
+                console.log('Errorl jander:' +util.inspect(error));
+                if(error instanceof Function) error(err);
+                else throw error;
+            });
     }
 
 }
