@@ -35,7 +35,7 @@
     </entry>
   </component>
   <component name="ProjectPlainTextFileTypeManager">
-    <file url="file://$PROJECT_DIR$/test/fixtures/OneColumn1.csv" />
-    <file url="file://$PROJECT_DIR$/test/fixtures/test1.csv" />
+    <file url="file://$PROJECT_DIR$/test/fixtures/csvprocessor/OneColumn1.csv" />
+    <file url="file://$PROJECT_DIR$/test/fixtures/csvprocessor/test1.csv" />
   </component>
 </project>

@@ -24,9 +24,8 @@ class CSVProcessor {
                 done();
             })
             .on('error', (err) => {
-                console.log('Errorl jander:' +util.inspect(error));
                 if(error instanceof Function) error(err);
-                else throw error;
+                else throw err;
             });
     }
 

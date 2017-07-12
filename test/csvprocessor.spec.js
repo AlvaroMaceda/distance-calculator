@@ -9,19 +9,15 @@ chai.use(sinonChai);
 const csv = require('csvtojson');
 const util = require('util'); // Remove when testing done
 
-const FIXTURES_PATH = './test/fixtures/';
+const FIXTURES_PATH = './test/fixtures/csvprocessor/';
 const csvProcessor = require('../app/csvprocessor');
-
-const options = {
-    noheader:true,
-    headers: ['destination','origin'],
-    trim: true, // This fails in some cases
-};
 
 describe('csv Processor', () => {
 
+    let csvProcessor;
+
     beforeEach( function() {
-        this.csvProcessor = require('../app/csvprocessor');
+        csvProcessor = require('../app/csvprocessor');
     });
 
     it('Works with one column (destination)', function(done) {
@@ -32,14 +28,14 @@ describe('csv Processor', () => {
             done();
         };
 
-        this.csvProcessor.processFile(FIXTURES_PATH + 'OneColumn1.csv', spy1, expectation);
+        csvProcessor.processFile(FIXTURES_PATH + 'OneColumn1.csv', spy1, expectation);
 
         let spy2 = sinon.spy();
         expectation  = function() {
             expect(spy2).to.have.been.calledThrice();
             done();
         };
-        this.csvProcessor.processFile(FIXTURES_PATH + 'OneColumn2.csv', spy2, expectation);
+        csvProcessor.processFile(FIXTURES_PATH + 'OneColumn2.csv', spy2, expectation);
 
     });
 
@@ -52,14 +48,14 @@ describe('csv Processor', () => {
             done();
         };
 
-        this.csvProcessor.processFile(FIXTURES_PATH + 'TwoColumns1.csv', spy1, expectation);
+        csvProcessor.processFile(FIXTURES_PATH + 'TwoColumns1.csv', spy1, expectation);
 
         let spy2 = sinon.spy();
         expectation = function() {
             expect(spy2.callCount()).to.equal(5);
             done();
         };
-        this.csvProcessor.processFile(FIXTURES_PATH + 'TwoColumns2.csv', spy2, expectation);
+        csvProcessor.processFile(FIXTURES_PATH + 'TwoColumns2.csv', spy2, expectation);
     });
 
     it('Works with the two first columns if there are more than two ones', function() {
@@ -68,7 +64,7 @@ describe('csv Processor', () => {
             expect(spy.callCount()).to.equal(5);
             done();
         };
-        this.csvProcessor.processFile(FIXTURES_PATH + 'MoreThanTwoColumns.csv', spy, expectation);
+        csvProcessor.processFile(FIXTURES_PATH + 'MoreThanTwoColumns.csv', spy, expectation);
     });
 
     xit('Works with mixed number of columns', function() {
@@ -76,7 +72,7 @@ describe('csv Processor', () => {
     });
 
     it('Fails if file does not exists', function(done) {
-        this.csvProcessor.processFile('nonExistentFile.csv', function () {}, function() {},
+        csvProcessor.processFile('nonExistentFile.csv', function () {}, function() {},
             function(error) {
                 if(error.message === 'File not exists') done();
                 else done('Expected file not exists message');
