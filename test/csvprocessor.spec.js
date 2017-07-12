@@ -67,6 +67,10 @@ describe('csv Processor', () => {
         csvProcessor.processFile(FIXTURES_PATH + 'MoreThanTwoColumns.csv', spy, expectation);
     });
 
+    xit('Does not fail if done function not provided', function() {
+
+    });
+
     xit('Works with mixed number of columns', function() {
 
     });

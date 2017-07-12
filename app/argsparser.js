@@ -13,12 +13,13 @@ class ArgsParser {
         this.arguments = {};
 
         this.program
-            .arguments('<origin> <destination>')
+            .arguments('<origin> <destination> <key>')
             // .option('-u, --username <username>', 'The user to authenticate as')
             // .option('-p, --password <password>', 'The user\'s password')
-            .action(function(origin, destination) {
+            .action(function(origin, destination, key) {
                 me.arguments.origin = origin;
                 me.arguments.destination = destination;
+                me.arguments.key = key;
             });
     }
 

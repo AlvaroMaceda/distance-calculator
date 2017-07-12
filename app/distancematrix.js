@@ -32,13 +32,19 @@ class DistanceMatrix {
             json: true
         }, function(err, res, body) {
             if (err) throw err;
-            let distanceData = {
-                distance: body.rows[0].elements[0].distance.value,
-                distanceText: body.rows[0].elements[0].distance.text,
-                duration: body.rows[0].elements[0].duration.value,
-                durationText: body.rows[0].elements[0].duration.text
-            };
-            console.log('do something');
+            if(body.status!=='OK') throw new Error(body.error_message);
+
+            let distanceData = {};
+
+            if (body.rows[0].elements[0].status==='OK') {
+                distanceData = {
+                    distance: body.rows[0].elements[0].distance.value,
+                    distanceText: body.rows[0].elements[0].distance.text,
+                    duration: body.rows[0].elements[0].duration.value,
+                    durationText: body.rows[0].elements[0].duration.text
+                };
+            }
+
             callback(distanceData);
         });
 

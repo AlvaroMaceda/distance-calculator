@@ -72,5 +72,16 @@ describe('Distance Matrix', () => {
 
     });
 
+    xit('Throws an error when there is an error in the request', function() {
+
+    });
+
+    xit('Throws an error when there is an error code in the response', function() {
+
+    });
+
+    xit('Does not fail if place not found', function() {
+
+    });
 
 });

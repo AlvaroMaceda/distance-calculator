@@ -1,5 +1,4 @@
 'use strict';
-const util = require('util'); // Remove when testing done
 
 const CSV_OPTIONS = {
     noheader:true,
@@ -21,7 +20,7 @@ class CSVProcessor {
                 callback(line.destination, line.origin);
             })
             .on('done',()=>{
-                done();
+                if(done instanceof Function) done();
             })
             .on('error', (err) => {
                 if(error instanceof Function) error(err);

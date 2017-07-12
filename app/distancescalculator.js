@@ -1,31 +1,36 @@
 'use strict';
 
+const util = require('util'); // Remove when testing done
+
+function processLine(destination, origin, callback) {
+    this.distanceMatrix.calculate(origin, destination, function(distanceData){
+        console.log(util.inspect(distanceData));
+        callback();
+    });
+}
+
 class DistancesCalculator {
 
-    constructor() {
+    constructor(key) {
         this.csvProcessor = require('./csvprocessor');
-        this.distanceMatrix = require('./distancematrix');
-        this.outputStream = process.stdout;
+        this.distanceMatrix = require('./distancematrix')(key);
     }
 
-    set outputStream(stream) {
+    processFile(file, callback, done) {
 
-    }
+        let localCallback = (function(destination, origin) {
+            processLine.bind(this)(destination, origin, callback);
+        }).bind(this);
 
-    processFile() {
-        // Por cada línea, hace un callback con los datos de la línea + la distancia
+        this.csvProcessor.processFile(file, localCallback, done);
     }
 
     calculateDistance(origin, destination, callback) {
         // Hace un callback con los datos de la línea + la distancia
         this.distanceMatrix.calculate(origin, destination, callback);
     }
-
-    // Private
-    generateDistanceLine() {
-        return 'TO-DO';
-    }
-
 }
 
-module.exports = new DistancesCalculator();
+module.exports = function(key) {
+    return new DistancesCalculator(key);
+};
