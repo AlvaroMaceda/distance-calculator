@@ -1,8 +1,15 @@
 'use strict';
 
-const expect = require('chai').expect;
+const chai = require("chai");
+const expect = chai.expect;
+const sinon = require("sinon");
+const sinonChai = require("sinon-chai");
+chai.use(sinonChai);
+
 const csv = require('csvtojson');
-const util = require('util');
+
+const util = require('util'); // Remove when testing done
+
 const csvProcessor = require('../app/csvprocessor');
 
 const options = {
@@ -18,7 +25,13 @@ describe('csv Processor', () => {
     });
 
     it('Works with one column (destination)', function(done) {
-        this.csvProcessor.processFile('fixtures/OneColumn.csv', function () {});
+        let cb = sinon.spy();
+        this.csvProcessor.processFile('fixtures/OneColumn1.csv', cb);
+        expect(cb).to.have.been.calledWith('221B Baker Street, London');
+
+        cb = sinon.spy();
+        this.csvProcessor.processFile('fixtures/OneColumn2.csv', cb);
+        expect(cb).to.have.been.calledThrice();
     });
 
     it('Works with two columns (destination and origin)', function(done) {
