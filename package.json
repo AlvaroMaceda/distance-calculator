@@ -21,14 +21,14 @@
   "homepage": "https://github.com/AlvaroMaceda/distance-calculator#readme",
   "devDependencies": {
     "chai": "^4.0.2",
-    "mocha": "^3.4.2",
-    "nock": "^9.0.13",
+    "mocha": "^5.2.0",
+    "nock": "^9.4.1",
     "sinon": "^2.3.7",
     "sinon-chai": "^2.11.0"
   },
   "dependencies": {
     "commander": "^2.11.0",
     "csvtojson": "^1.1.7",
-    "request": "^2.81.0"
+    "request": "^2.87.0"
   }
 }
