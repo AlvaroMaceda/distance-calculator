@@ -14,7 +14,8 @@ try {
 
     let distancesCalculator = require('./distancescalculator')(key);
     distancesCalculator.processFile(
-        './test/fixtures/csvprocessor/OneColumn2.csv',
+        // './test/fixtures/csvprocessor/OneColumn2.csv',
+        './test/fixtures/csvprocessor/TwoColumns2.csv',
         function(foo) {
             console.log('foo:' + foo);
         },
