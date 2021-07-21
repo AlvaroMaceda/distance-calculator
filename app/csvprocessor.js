@@ -13,25 +13,10 @@ class CSVProcessor {
     }
 
     processFile(file, callback, done, error) {
-
-        // this.csv(CSV_OPTIONS)
-        //     .fromFile(file)
-        //     .on('json', (line) => {
-        //         callback(line.destination, line.origin);
-        //     })
-        //     .on('done',()=>{
-        //         if(done instanceof Function) done();
-        //     })
-        //     .on('error', (err) => {
-        //         if(error instanceof Function) error(err);
-        //         else throw err;
-        //     });
-
         this.csv(CSV_OPTIONS)
             .fromFile(file)
             .subscribe((line) => {
-                console.log(`line: ${JSON.stringify(line)}`)
-                // console.log(line)
+                // console.log(`line: ${JSON.stringify(line)}`)
                 callback(line.destination, line.origin);
             })
     }

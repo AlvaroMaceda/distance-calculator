@@ -18,14 +18,27 @@ class DistanceMatrix {
         this.key = key;
     }
 
+    // A test to include departure time, but it doesn't matter very much (+-5m max)
+    departureTime() {
+        const a_monday_at_9_am = '2021-10-11 09:00'
+        const departure = new Date(a_monday_at_9_am)
+        const secondsSinceEpoch = Math.round(departure.getTime() / 1000)
+
+        return secondsSinceEpoch
+    }
+
     calculate(origin, destination, callback) {
+        // const departure_time = this.departureTime()
+
         let data = {
             units: 'metric',
             key: this.key,
             origins: origin,
-            destinations: destination
+            destinations: destination,
+            // departure_time: departure_time
         };
         let url = this.API_HOST + this.API_URL + '?'+ encodeData(data);
+        console.log(url)
 
         request.get({
             url: url,

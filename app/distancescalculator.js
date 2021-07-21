@@ -3,10 +3,10 @@
 const util = require('util'); // Remove when testing done
 
 function processLine(destination, origin, callback) {
-    console.log(`processline. destination: ${destination} origin: ${origin}`)
+    // console.log(`processline. destination: ${destination} origin: ${origin}`)
     this.distanceMatrix.calculate(origin, destination, function(distanceData){
-        console.log(`distance data: ${util.inspect(distanceData)}`)
-        callback();
+        // console.log(`distance data: ${util.inspect(distanceData)}`)
+        callback(origin, destination, distanceData);
     });
 }
 

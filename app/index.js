@@ -15,9 +15,11 @@ try {
     let distancesCalculator = require('./distancescalculator')(key);
     distancesCalculator.processFile(
         // './test/fixtures/csvprocessor/OneColumn2.csv',
-        './test/fixtures/csvprocessor/TwoColumns2.csv',
-        function(foo) {
-            console.log('foo:' + foo);
+        //'./test/fixtures/csvprocessor/TwoColumns2.csv',
+        './temp/Test 1.csv',
+        function(origin, destination, distance) {
+            console.log(`origin: ${origin} destination: ${destination}`);
+            console.log('distance:' + JSON.stringify(distance));
         },
         function() { console.log('done')}
     )
