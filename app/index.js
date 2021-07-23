@@ -17,9 +17,7 @@ try {
     csvStream.pipe(process.stdout)//.on('end', () => process.exit())
 
     distancesCalculator.processFile(
-        // './test/fixtures/csvprocessor/OneColumn2.csv',
-        //'./test/fixtures/csvprocessor/TwoColumns2.csv',
-        './temp/Test 1.csv',
+        argsparser.arguments.destinations,
         function(origin, destination, distance) {
             data = {
                 origin: origin,

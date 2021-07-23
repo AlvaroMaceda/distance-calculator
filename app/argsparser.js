@@ -13,12 +13,13 @@ class ArgsParser {
         this.arguments = {};
 
         this.program
-            .arguments('<origin> <destination> <key>')
-            // .option('-u, --username <username>', 'The user to authenticate as')
-            // .option('-p, --password <password>', 'The user\'s password')
-            .action(function(origin, destination, key) {
+            .requiredOption('-o, --origin <text>', 'Text with the origin position')
+            .requiredOption('-d, --destinations <file>', 'CSV with the destinations')
+            .requiredOption('-k, --key <key>', 'Google distance matrix key')
+            .action(function() {
+                const { origin, destinations, key } = this.opts()
                 me.arguments.origin = origin;
-                me.arguments.destination = destination;
+                me.arguments.destinations = destinations;
                 me.arguments.key = key;
             });
     }

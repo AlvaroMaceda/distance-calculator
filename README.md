@@ -4,7 +4,8 @@ Tool to calculate distances with Google Distance Matrix throught a csv file
 
 npm install -g
 
-dcalculator "Sesame Street, 12, BS" destinations.csv
+dcalculator --key 'your Google's distance matrix key here' --origin '420, Paper St. Wilmington, DE 19886' --destinations 'path_of_destinations_file'
+
 
 ## Development
 
