@@ -38,7 +38,6 @@ class DistanceMatrix {
             // departure_time: departure_time
         };
         let url = this.API_HOST + this.API_URL + '?'+ encodeData(data);
-        console.log(url)
 
         request.get({
             url: url,

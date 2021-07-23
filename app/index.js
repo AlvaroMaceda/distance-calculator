@@ -1,29 +1,36 @@
 #!/usr/bin/env node
 
-const argsparser = require('./argsparser');
-const csvProcessor = require('../app/csvprocessor');
-const FIXTURES_PATH = './test/fixtures/';
+const argsparser = require('./argsparser')
+const csv = require('fast-csv')
 
 try {
     argsparser.parse(process.argv);
 
-    console.log('origin: %s destination: %s key:%s',
-        argsparser.arguments.origin, argsparser.arguments.destination, argsparser.arguments.key);
+    // console.log('origin: %s destination: %s key:%s',
+    //     argsparser.arguments.origin, argsparser.arguments.destination, argsparser.arguments.key);
+    // process.exit()
 
     let key = argsparser.arguments.key;
+    let distancesCalculator = require('./distancescalculator')(key)
 
-    let distancesCalculator = require('./distancescalculator')(key);
+    const csvStream = csv.format({ headers: true, quote: '"' })
+    csvStream.pipe(process.stdout)//.on('end', () => process.exit())
+
     distancesCalculator.processFile(
         // './test/fixtures/csvprocessor/OneColumn2.csv',
         //'./test/fixtures/csvprocessor/TwoColumns2.csv',
         './temp/Test 1.csv',
         function(origin, destination, distance) {
-            console.log(`origin: ${origin} destination: ${destination}`);
-            console.log('distance:' + JSON.stringify(distance));
+            data = {
+                origin: origin,
+                destination: destination,
+                ...distance
+            }
+            csvStream.write(data)
         },
-        function() { console.log('done')}
+        csvStream.end
     )
 
 }catch(e){
-    console.log(e);
+    console.log(e)
 }
