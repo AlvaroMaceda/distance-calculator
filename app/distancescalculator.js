@@ -2,12 +2,6 @@
 
 const util = require('util'); // Remove when testing done
 
-function processLine(destination, origin, callback) {
-    this.distanceMatrix.calculate(origin, destination, function(distanceData){
-        callback(origin, destination, distanceData);
-    });
-}
-
 class DistancesCalculator {
 
     constructor(key) {
@@ -16,16 +10,20 @@ class DistancesCalculator {
     }
 
     processFile(file, callback, done) {
-
-        let localCallback = (function(destination, origin) {
-            processLine.bind(this)(destination, origin, callback);
-        }).bind(this);
+        const localCallback = (destination, origin, additionalFields) => {
+                this.processLine(destination, origin, additionalFields, callback)
+            }
 
         this.csvProcessor.processFile(file, localCallback, done);
     }
 
+    processLine(destination, origin, additionalFields, callback) {
+        this.distanceMatrix.calculate(origin, destination, function(distanceData){
+            callback(origin, destination, additionalFields, distanceData);
+        });
+    }
+
     calculateDistance(origin, destination, callback) {
-        // Hace un callback con los datos de la línea + la distancia
         this.distanceMatrix.calculate(origin, destination, callback);
     }
 }

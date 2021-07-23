@@ -18,10 +18,11 @@ try {
 
     distancesCalculator.processFile(
         argsparser.arguments.destinations,
-        function(origin, destination, distance) {
+        function(origin, destination, additionalFields, distance) {
             data = {
                 origin: origin,
                 destination: destination,
+                ...(additionalFields || {}),
                 ...distance
             }
             csvStream.write(data)

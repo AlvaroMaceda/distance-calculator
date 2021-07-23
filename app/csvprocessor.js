@@ -1,9 +1,7 @@
 'use strict';
 
 const CSV_OPTIONS = {
-    noheader:true,
-    headers: ['destination','origin'],
-    trim: true, // This fails in some cases
+    trim: true // This fails in some cases
 };
 
 class CSVProcessor {
@@ -16,8 +14,8 @@ class CSVProcessor {
         this.csv(CSV_OPTIONS)
             .fromFile(file)
             .subscribe((line) => {
-                // console.log(`line: ${JSON.stringify(line)}`)
-                callback(line.destination, line.origin);
+                const { origin, destination, ...additionalFields } = line
+                callback(destination, origin, additionalFields)
             })
     }
 
