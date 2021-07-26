@@ -7,29 +7,29 @@ Don't know how to test that.
 class ArgsParser {
 
     constructor() {
-        let me = this;
+        let me = this
 
-        this.program = require('commander');
-        this.arguments = {};
+        this.program = require('commander')
+        this.arguments = {}
 
         this.program
-            .requiredOption('-o, --origin <text>', 'Text with the origin position')
-            .requiredOption('-d, --destinations <file>', 'CSV with the destinations')
+            .option('-o, --origin <text>', 'Text with the origin position')
+            .requiredOption('-f, --file <file>', 'CSV with the destinations')
             .requiredOption('-k, --key <key>', 'Google distance matrix key')
             .action(function() {
-                const { origin, destinations, key } = this.opts()
-                me.arguments.origin = origin;
-                me.arguments.destinations = destinations;
-                me.arguments.key = key;
-            });
+                const { origin, file, key } = this.opts()
+                me.arguments.origin = origin
+                me.arguments.file = file
+                me.arguments.key = key
+            })
     }
 
     parse(argv) {
-        this.program.parse(argv);
+        this.program.parse(argv)
     }
 
 }
 
-module.exports = new ArgsParser();
+module.exports = new ArgsParser()
 
 

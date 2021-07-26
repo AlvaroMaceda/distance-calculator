@@ -6,18 +6,14 @@ const csv = require('fast-csv')
 try {
     argsparser.parse(process.argv);
 
-    // console.log('origin: %s destination: %s key:%s',
-    //     argsparser.arguments.origin, argsparser.arguments.destination, argsparser.arguments.key);
-    // process.exit()
-
     let key = argsparser.arguments.key;
     let distancesCalculator = require('./distancescalculator')(key)
 
     const csvStream = csv.format({ headers: true, quote: '"' })
-    csvStream.pipe(process.stdout)//.on('end', () => process.exit())
+    csvStream.pipe(process.stdout)
 
     distancesCalculator.processFile(
-        argsparser.arguments.destinations,
+        argsparser.arguments.file,
         function(origin, destination, additionalFields, distance) {
             data = {
                 origin: origin,
