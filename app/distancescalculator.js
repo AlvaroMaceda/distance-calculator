@@ -1,11 +1,14 @@
 import csvProcessor from './csvprocessor.js'
-import distanceMatrix from './distancematrix.js'
+import DistanceMatrix from './distancematrix.js'
 
 class DistancesCalculator {
 
-    constructor(key) {
-        this.csvProcessor = csvProcessor;
-        this.distanceMatrix = distanceMatrix(key);
+    #csvProcessor;
+    #distanceMatrix;
+
+    constructor(key, mode, origin) {
+        this.#csvProcessor = csvProcessor;
+        this.#distanceMatrix = new DistanceMatrix(key, mode, origin);
     }
 
     processFile(file, callback, done) {
@@ -13,20 +16,18 @@ class DistancesCalculator {
                 this.processLine(destination, origin, additionalFields, callback)
             }
 
-        this.csvProcessor.processFile(file, localCallback, done);
+        this.#csvProcessor.processFile(file, localCallback, done);
     }
 
     processLine(destination, origin, additionalFields, callback) {
-        this.distanceMatrix.calculate(origin, destination, function(distanceData){
+        this.#distanceMatrix.calculate(origin, destination, function(distanceData){
             callback(origin, destination, additionalFields, distanceData);
         });
     }
 
     calculateDistance(origin, destination, callback) {
-        this.distanceMatrix.calculate(origin, destination, callback);
+        this.#distanceMatrix.calculate(origin, destination, callback);
     }
 }
 
-export default function(key) {
-    return new DistancesCalculator(key);
-};
+export default DistancesCalculator;

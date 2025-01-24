@@ -2,19 +2,19 @@
 
 import argsparser from './argsparser.js';
 import csv from 'fast-csv'
-import distancesCalculatorLib from './distancescalculator.js'
+import DistancesCalculator from './distancescalculator.js'
 
 try {
     argsparser.parse(process.argv);
+    let { key, mode, origin, file  } = argsparser.arguments;
 
-    let key = argsparser.arguments.key;
-    let distancesCalculator = distancesCalculatorLib(key)
+    let calculator = new DistancesCalculator(key, mode, origin);
 
     const csvStream = csv.format({ headers: true, quote: '"' })
     csvStream.pipe(process.stdout)
 
-    distancesCalculator.processFile(
-        argsparser.arguments.file,
+    calculator.processFile(
+        file,
         function(origin, destination, additionalFields, distance) {
             const data = {
                 origin: origin,

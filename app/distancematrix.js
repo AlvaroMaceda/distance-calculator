@@ -4,9 +4,16 @@ function encodeData(data) {
     }).join("&");
 }
 
+const DEFAULT_MODE = 'driving';
+
 class DistanceMatrix {
 
-    constructor(key) {
+    #mode;
+    #origin;
+
+    constructor(key, mode, origin) {
+        this.#mode = mode || DEFAULT_MODE;
+        this.#origin = origin;
         this.setKey(key);
     }
 
@@ -23,16 +30,21 @@ class DistanceMatrix {
         return secondsSinceEpoch;
     }
 
-    async calculate(origin, destination, callback) {
-        // const departure_time = this.departureTime();
-
-        let data = {
+    requestData(origin, destination) {
+        return {
             units: 'metric',
             key: this.key,
             origins: origin,
             destinations: destination,
+            mode: this.#mode,
             // departure_time: departure_time
         };
+    }
+
+    async calculate(origin, destination, callback) {
+        // const departure_time = this.departureTime();
+
+        let data = this.requestData(origin || this.#origin, destination);
         let url = this.API_HOST + this.API_URL + '?' + encodeData(data);
 
         let response = await fetch(url);
@@ -60,6 +72,4 @@ class DistanceMatrix {
 DistanceMatrix.prototype.API_HOST = 'https://maps.googleapis.com';
 DistanceMatrix.prototype.API_URL = '/maps/api/distancematrix/json';
 
-export default function(key) {
-    return new DistanceMatrix(key);
-};
+export default DistanceMatrix;
