@@ -1,15 +1,19 @@
 'use strict';
 
-const expect = require('chai').expect;
-const nock   = require('nock');
-const request = require('request');
+import {expect} from 'chai';
+import fetchMock from 'fetch-mock';
+import distanceMatrix from '../app/distancematrix';
 
 const FAKE_KEY = 'FAKEGoog1eAP1Key';
 
 describe('Distance Matrix', () => {
 
     before(function(){
-        this.distanceMatrix = require('../app/distancematrix')(FAKE_KEY);
+        this.distanceMatrix = distanceMatrix(FAKE_KEY);
+    });
+
+    afterEach(() => {
+        fetchMock.restore();
     });
 
     it('Returns distance between two points', function(done) {
@@ -56,11 +60,8 @@ describe('Distance Matrix', () => {
             "status": "OK"
         };
 
-        let url = '/';
-        nock( this.distanceMatrix.API_HOST)
-            .get(this.distanceMatrix.API_URL)
-            .query(queryData)
-            .reply(200, response);
+        let url = `${this.distanceMatrix.API_HOST}${this.distanceMatrix.API_URL}?${new URLSearchParams(queryData).toString()}`;
+        fetchMock.get(url, response);
 
         this.distanceMatrix.calculate(origin, destination, function(distanceData){
             expect(distanceData.distance).to.equal(distance);
@@ -68,7 +69,7 @@ describe('Distance Matrix', () => {
             expect(distanceData.duration).to.equal(duration);
             expect(distanceData.durationText).to.equal(durationText);
             done();
-        })
+        });
 
     });
 

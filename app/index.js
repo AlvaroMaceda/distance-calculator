@@ -1,21 +1,22 @@
 #!/usr/bin/env node
 
-const argsparser = require('./argsparser')
-const csv = require('fast-csv')
+import argsparser from './argsparser.js';
+import csv from 'fast-csv'
+import DistancesCalculator from './distancescalculator.js'
 
 try {
     argsparser.parse(process.argv);
+    let { key, mode, origin, file  } = argsparser.arguments;
 
-    let key = argsparser.arguments.key;
-    let distancesCalculator = require('./distancescalculator')(key)
+    let calculator = new DistancesCalculator(key, mode, origin);
 
-    const csvStream = csv.format({ headers: true, quote: '"' })
+    const csvStream = csv.format({ headers: true, quote: '"', delimiter: ';' })
     csvStream.pipe(process.stdout)
 
-    distancesCalculator.processFile(
-        argsparser.arguments.file,
+    calculator.processFile(
+        file,
         function(origin, destination, additionalFields, distance) {
-            data = {
+            const data = {
                 origin: origin,
                 destination: destination,
                 ...(additionalFields || {}),
