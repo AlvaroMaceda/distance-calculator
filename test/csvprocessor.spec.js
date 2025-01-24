@@ -1,23 +1,21 @@
 'use strict';
 
-const chai = require("chai");
+import chai from 'chai';
 const expect = chai.expect;
-const sinon = require("sinon");
-const sinonChai = require("sinon-chai");
+import sinon from "sinon";
+import sinonChai from "sinon-chai";
 chai.use(sinonChai);
 
-const csv = require('csvtojson');
-const util = require('util'); // Remove when testing done
+import csv from 'csvtojson';
 
 const FIXTURES_PATH = './test/fixtures/csvprocessor/';
-const csvProcessor = require('../app/csvprocessor');
 
 describe('csv Processor', () => {
 
     let csvProcessor;
 
-    beforeEach( function() {
-        csvProcessor = require('../app/csvprocessor');
+    beforeEach(async function() {
+        csvProcessor = await import('../app/csvprocessor');
     });
 
     it('Works with one column (destination)', function(done) {
