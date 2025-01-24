@@ -1,12 +1,11 @@
-'use strict';
-
-const util = require('util'); // Remove when testing done
+import csvProcessor from './csvprocessor.js'
+import distanceMatrix from './distancematrix.js'
 
 class DistancesCalculator {
 
     constructor(key) {
-        this.csvProcessor = require('./csvprocessor');
-        this.distanceMatrix = require('./distancematrix')(key);
+        this.csvProcessor = csvProcessor;
+        this.distanceMatrix = distanceMatrix(key);
     }
 
     processFile(file, callback, done) {
@@ -28,6 +27,6 @@ class DistancesCalculator {
     }
 }
 
-module.exports = function(key) {
+export default function(key) {
     return new DistancesCalculator(key);
 };

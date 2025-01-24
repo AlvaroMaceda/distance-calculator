@@ -1,4 +1,4 @@
-'use strict';
+import csv from 'csvtojson'
 
 const CSV_OPTIONS = {
     trim: true // This fails in some cases
@@ -7,10 +7,10 @@ const CSV_OPTIONS = {
 class CSVProcessor {
 
     constructor() {
-        this.csv =  require('csvtojson');
+        this.csv =  csv
     }
 
-    processFile(file, callback, done, error) {
+    processFile(file, callback, _done, _error) {
         this.csv(CSV_OPTIONS)
             .fromFile(file)
             .subscribe((line) => {
@@ -21,4 +21,4 @@ class CSVProcessor {
 
 }
 
-module.exports = new CSVProcessor();
+export default new CSVProcessor();

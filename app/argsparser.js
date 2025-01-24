@@ -4,16 +4,20 @@ Note: There are no test of this module because
 
 Don't know how to test that.
  */
+
+import { program } from 'commander'
+
 class ArgsParser {
 
     constructor() {
         let me = this
 
-        this.program = require('commander')
+        this.program = program
         this.arguments = {}
 
         this.program
-            .option('-o, --origin <text>', 'Text with the origin position')
+            // TO-DO: Add origin option
+            // .option('-o, --origin <text>', 'Text with the origin position')
             .requiredOption('-f, --file <file>', 'CSV with the destinations')
             .requiredOption('-k, --key <key>', 'Google distance matrix key')
             .action(function() {
@@ -22,6 +26,8 @@ class ArgsParser {
                 me.arguments.file = file
                 me.arguments.key = key
             })
+            .usage("dcalculator --key 'your Google's distance matrix key here' --file 'path_of_destinations_file'")
+            .help()
     }
 
     parse(argv) {
@@ -30,6 +36,6 @@ class ArgsParser {
 
 }
 
-module.exports = new ArgsParser()
+export default new ArgsParser()
 
 

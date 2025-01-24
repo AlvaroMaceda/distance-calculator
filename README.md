@@ -2,7 +2,9 @@ Tool to calculate distances with Google Distance Matrix throught a csv file
 
 ## Installation and usage
 
-npm install -g
+Needs at least node 21, because of the use of fetch API.
+
+`yarn install -g`
 
 `dcalculator --key 'your Google's distance matrix key here' --file 'path_of_destinations_file'`
 
