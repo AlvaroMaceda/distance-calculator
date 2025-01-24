@@ -10,7 +10,7 @@ try {
 
     let calculator = new DistancesCalculator(key, mode, origin);
 
-    const csvStream = csv.format({ headers: true, quote: '"' })
+    const csvStream = csv.format({ headers: true, quote: '"', delimiter: ';' })
     csvStream.pipe(process.stdout)
 
     calculator.processFile(

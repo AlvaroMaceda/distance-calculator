@@ -41,11 +41,9 @@ class DistanceMatrix {
         };
     }
 
-    async calculate(origin, destination, callback) {
-        // const departure_time = this.departureTime();
-
-        let data = this.requestData(origin || this.#origin, destination);
-        let url = this.API_HOST + this.API_URL + '?' + encodeData(data);
+    async #makeAPICall(origin, destination) {
+        const requestData = this.requestData(origin, destination);
+        const url = this.API_HOST + this.API_URL + '?' + encodeData(requestData);
 
         let response = await fetch(url);
         if(!response.ok) throw new Error(response.statusText);
@@ -54,14 +52,25 @@ class DistanceMatrix {
 
         if (body.status !== 'OK') throw new Error(body.error_message);
 
-        let distanceData = {};
+        return body;
+    }
 
-        if (body.rows[0].elements[0].status === 'OK') {
+    async calculate(origin, destination, callback) {
+        origin ||= this.#origin;
+        
+        // const departure_time = this.departureTime();
+        const response = await this.#makeAPICall(origin, destination);
+
+        let distanceData = {};
+        if (response.rows[0].elements[0].status === 'OK') {
             distanceData = {
-                distance: body.rows[0].elements[0].distance.value,
-                distanceText: body.rows[0].elements[0].distance.text,
-                duration: body.rows[0].elements[0].duration.value,
-                durationText: body.rows[0].elements[0].duration.text
+                origin: origin,
+                destination: destination,
+                mode: this.#mode,
+                distance: response.rows[0].elements[0].distance.value,
+                distanceText: response.rows[0].elements[0].distance.text,
+                duration: response.rows[0].elements[0].duration.value,
+                durationText: response.rows[0].elements[0].duration.text
             };
         }
 

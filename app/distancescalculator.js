@@ -21,7 +21,7 @@ class DistancesCalculator {
 
     processLine(destination, origin, additionalFields, callback) {
         this.#distanceMatrix.calculate(origin, destination, function(distanceData){
-            callback(origin, destination, additionalFields, distanceData);
+            callback(distanceData.origin, distanceData.destination, additionalFields, distanceData);
         });
     }
 
