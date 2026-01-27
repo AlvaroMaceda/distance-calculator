@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "commander": "^13.1.0",
-    "csvtojson": "^2.0.10",
+    "csvtojson": "^2.0.13",
     "fast-csv": "^5.0.2"
   }
 }
